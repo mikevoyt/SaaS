@@ -2,10 +2,6 @@ class WrongNumberOfPlayersError < StandardError ; end
 class NoSuchStrategyError < StandardError ; end
 def rps_game_winner(game)
   raise WrongNumberOfPlayersError unless game.length == 2
-#  game.each do |entry|
-#    strategy = entry[1].downcase
-#    raise NoSuchStrategyError unless (strategy == "p" || strategy == "r" || strategy == "s")
-#  end
   player1 = game[0]
   player2 = game[1]
   player1_strategy = player1[1].downcase
@@ -43,4 +39,28 @@ def rps_game_winner(game)
   return winner
 end
 
+def rps_tournament_winner(tourney)
+  game_winners = []
+  tourney.each do |game|
+    match_winners = []
+    game.each do |match|
+      winner = rps_game_winner(match)
+      match_winners.push(winner)
+    end
+    winner = rps_game_winner(match_winners)
+    game_winners.push(winner)
+  end
+  winner = rps_game_winner(game_winners)
+  p winner
+end
+
 #p rps_game_winner([ [ "Armando", "p" ], [ "Dave", "s" ] ])
+tourney = [ [
+                [ ["Armando", "P"], ["Dave", "S"] ],
+                [ ["Richard", "R"],  ["Michael", "S"] ],
+            ],
+            [
+                [ ["Allen", "S"], ["Omer", "P"] ],
+                [ ["David E.", "R"], ["Richard X.", "P"] ]
+            ] ]
+#rps_tournament_winner(tourney)
