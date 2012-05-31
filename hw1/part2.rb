@@ -40,17 +40,17 @@ def rps_game_winner(game)
 end
 
 def rps_tournament_winner(tourney)
-  game_winners = []
-  tourney.each do |game|
-    match_winners = []
-    game.each do |match|
-      winner = rps_game_winner(match)
-      match_winners.push(winner)
+  sub_tourney_winners = []
+  tourney.each do |sub_tourney|
+    game_winners = []
+    sub_tourney.each do |game|
+      winner = rps_game_winner(game)
+      game_winners.push(winner)
     end
-    winner = rps_game_winner(match_winners)
-    game_winners.push(winner)
+    winner = rps_game_winner(game_winners)
+    sub_tourney_winners.push(winner)
   end
-  winner = rps_game_winner(game_winners)
+  winner = rps_game_winner(sub_tourney_winners)
   p winner
 end
 
@@ -63,4 +63,4 @@ tourney = [ [
                 [ ["Allen", "S"], ["Omer", "P"] ],
                 [ ["David E.", "R"], ["Richard X.", "P"] ]
             ] ]
-#rps_tournament_winner(tourney)
+rps_tournament_winner(tourney)
