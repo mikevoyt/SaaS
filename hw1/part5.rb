@@ -39,6 +39,23 @@ class Numeric
   end
 end
 
+class String
+  def palindrome?
+    fwd_string = self.downcase.gsub(/[^A-Za-z]/, '')
+    rev_string = fwd_string.reverse
+    return fwd_string == rev_string
+  end
+end
+
+module Enumerable
+  def palindrome?
+    rev = self.reverse
+    return self == rev
+  end
+end
+
+
+#p [1,2,3,2,1].palindrome?
 
 #p 10.euros
 #p 10.rupees.in(:euro)
