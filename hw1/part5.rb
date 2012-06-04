@@ -13,16 +13,40 @@ class Class
 end
 
 class Foo
-
   attr_accessor_with_history :bar
-
-
 end
 
-f = Foo.new
-f.bar = 1
-f.bar = 2
-p f.bar_history
-f = Foo.new
-f. bar = 4
-p f.bar_history
+# metaprogramming to the rescue!
+
+class Numeric
+  @@currencies = {'yen' => 0.013, 'euro' => 1.292, 'rupee' => 0.019, 'dollar' => 1.0}
+  def method_missing(method_id, *args)
+    singular_currency = method_id.to_s.gsub( /s$/, '')
+    if @@currencies.has_key?(singular_currency)
+      self * @@currencies[singular_currency]
+    else
+      super
+    end
+  end
+
+  def in(tag)
+    singular_currency = tag.to_s.gsub( /s$/, '')
+    if @@currencies.has_key?(singular_currency)
+      self / @@currencies[singular_currency]
+    else
+      super
+    end
+  end
+end
+
+
+#p 10.euros
+#p 10.rupees.in(:euro)
+
+#f = Foo.new
+#f.bar = 1
+#f.bar = 2
+#p f.bar_history
+#f = Foo.new
+#f. bar = 4
+#p f.bar_history
